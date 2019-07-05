@@ -13,6 +13,7 @@ class AccordionGroup extends React.Component {
     };
     this.onAccordionItemClick = this.onAccordionItemClick.bind(this);
   }
+  static AccordionItem = AccordionItem;
   onAccordionItemClick(event, accordionIdentifier) {
     debugger;
     const { data, currentOpenIndexList } = this.state;
