@@ -9,9 +9,9 @@ const AccordionItemBody = styled.div`
 `;
 
 const AccordionItem = props => {
-  const { open, title, body, ...restProps } = props;
+  const { open, title, body, style, ...restProps } = props;
   return (
-    <div {...restProps}>
+    <div style={style}>
       {/* Animated Title */}
       {title(open, restProps)}
       {/* Animated Separator */}

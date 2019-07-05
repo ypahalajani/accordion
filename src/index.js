@@ -31,10 +31,13 @@ class App extends React.Component {
         <AccordionGroup
           data={list}
           currentOpenIndexList={currentOpenIndexList}
-          title={(isAccordionOpen, accordionIdentifier) => (
+          title={(
+            isAccordionOpen,
+            { id: accordionIdentifier, onAccordionItemClick }
+          ) => (
             <AccordionItemHeader
               onClick={event =>
-                this.onAccordionItemClick(event, accordionIdentifier)
+                onAccordionItemClick(event, accordionIdentifier)
               }
             >
               <h3 style={{ margin: 16 }}>Accordion {accordionIdentifier}</h3>
