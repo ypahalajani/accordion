@@ -5,14 +5,14 @@ class AccordionGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentOpenIndexList: props.currentOpenIndexList
+      currentlyOpened: props.currentlyOpened
     };
-    this.onAccordionItemClick = this.onAccordionItemClick.bind(this);
+    this.onAccordionHeaderClick = this.onAccordionHeaderClick.bind(this);
   }
-  onAccordionItemClick(event, accordionIdentifier) {
-    const { currentOpenIndexList } = this.state;
+  onAccordionHeaderClick(event, accordionIdentifier) {
+    const { currentlyOpened } = this.state;
     const { allowMultipleOpen } = this.props;
-    let nextState = [...currentOpenIndexList];
+    let nextState = [...currentlyOpened];
     if (allowMultipleOpen) {
       const alreadyOpenIndex = nextState.indexOf(accordionIdentifier);
       if (alreadyOpenIndex !== -1) {
@@ -24,19 +24,18 @@ class AccordionGroup extends React.Component {
       const alreadyOpenIndex = nextState.indexOf(accordionIdentifier);
       nextState = alreadyOpenIndex === -1 ? [accordionIdentifier] : [];
     }
-    this.setState({ currentOpenIndexList: nextState });
+    this.setState({ currentlyOpened: nextState });
   }
   render() {
     // TODO: throw a warning when user is passing an allowMultipleOpen
     // prop along with their custom onAccordionClick callback for handling
     // custom  accordion toggling logic.
-    const { currentOpenIndexList } = this.state;
-    const { children, onAccordionItemClick } = this.props;
+    const { currentlyOpened } = this.state;
+    const { children, onAccordionHeaderClick } = this.props;
     return React.Children.map(children, (child, index) => {
       const isFirst = index === 0;
       const isLast = index + 1 === children.length;
-      const isAccordionOpen =
-        currentOpenIndexList.indexOf(child.props.id) !== -1;
+      const isAccordionOpen = currentlyOpened.indexOf(child.props.id) !== -1;
       return (
         <Spring
           from={{ marginTop: 4, marginBottom: 4 }}
@@ -46,9 +45,10 @@ class AccordionGroup extends React.Component {
           }}
         >
           {props => {
+            debugger;
             return React.cloneElement(child, {
-              onAccordionItemClick:
-                onAccordionItemClick || this.onAccordionItemClick,
+              onAccordionHeaderClick:
+                onAccordionHeaderClick || this.onAccordionHeaderClick,
               open: isAccordionOpen,
               style: props
             });

@@ -1,9 +1,13 @@
 import React from "react";
 
 const AccordionHeader = props => {
-  const { onAccordionItemClick, style, children, ...restProps } = props;
+  const { onAccordionHeaderClick, style, children, id, ...restProps } = props;
   return (
-    <div onClick={onAccordionItemClick} style={style} {...restProps}>
+    <div
+      onClick={event => onAccordionHeaderClick(event, id)}
+      style={style}
+      {...restProps}
+    >
       {children}
     </div>
   );

@@ -4,20 +4,25 @@ import AnimatedSeparator from "./Separator";
 import AccordionContent from "./AccordionContent";
 
 const AccordionItem = props => {
+  debugger;
   const {
+    id,
     open,
-    onAccordionItemClick,
+    onAccordionHeaderClick,
     title,
     body,
     children,
     ...restProps
   } = props;
-  let headerComponent = title ? title(open, restProps) : null;
+  let headerComponent = title ? title(open, id) : null;
   let contentComponent = body ? (
-    <AccordionContent open={open}>{body(open, restProps)}</AccordionContent>
+    <AccordionContent open={open}>{body(open)}</AccordionContent>
   ) : null;
   if (children) {
-    headerComponent = React.cloneElement(children[0]);
+    headerComponent = React.cloneElement(children[0], {
+      onAccordionHeaderClick,
+      id
+    });
     contentComponent = React.cloneElement(children[1], { open });
   }
   return (

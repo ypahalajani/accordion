@@ -41,17 +41,26 @@ class AccordionItemExample extends React.Component {
   render() {
     const { customAccordion } = this.state;
     return (
-      <StyledAccordionWrapper open={customAccordion.open}>
-        <StyledAccordionHeader onAccordionItemClick={this.customAccordionClick}>
-          <h3 style={{ margin: 16 }}>Accordion </h3>
-          <StyledIcon iconName="arrow_drop_down" open={customAccordion.open} />
-        </StyledAccordionHeader>
-        <StyledAccordionContent>
-          <p style={{ padding: 16 }}>
-            This accordion is not a part of the accordion group above.
-          </p>
-        </StyledAccordionContent>
-      </StyledAccordionWrapper>
+      <React.Fragment>
+        <h3 style={{ marginLeft: 16 }}>AccordionItem</h3>
+        <StyledAccordionWrapper
+          open={customAccordion.open}
+          onAccordionHeaderClick={this.customAccordionClick}
+        >
+          <StyledAccordionHeader>
+            <h3 style={{ margin: 16 }}>Accordion </h3>
+            <StyledIcon
+              iconName="arrow_drop_down"
+              open={customAccordion.open}
+            />
+          </StyledAccordionHeader>
+          <StyledAccordionContent>
+            <p style={{ padding: 16 }}>
+              This accordion is not a part of the accordion group above.
+            </p>
+          </StyledAccordionContent>
+        </StyledAccordionWrapper>
+      </React.Fragment>
     );
   }
 }

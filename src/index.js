@@ -16,16 +16,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        {/* <Accordion.AccordionGroup
-          allowMultipleOpen
-          currentOpenIndexList={currentOpenIndexList}
-        >
-          <CustomAccordion id="1" />
-          <CustomAccordion id="2" />
-          <CustomAccordion id="3" />
-        </Accordion.AccordionGroup> */}
-        <hr />
         <Examples.AccordionItemExample />
+        <hr />
+        <Examples.AccordionGroupExample />
       </div>
     );
   }
