@@ -1,29 +1,33 @@
 import React from "react";
-import { Spring } from "react-spring/renderprops";
-import styled from "styled-components";
 
 import AnimatedSeparator from "./Separator";
-
-const AccordionItemBody = styled.div`
-  overflow: hidden;
-`;
+import AccordionContent from "./AccordionContent";
 
 const AccordionItem = props => {
-  const { open, title, body, style, ...restProps } = props;
+  const {
+    open,
+    onAccordionItemClick,
+    title,
+    body,
+    children,
+    ...restProps
+  } = props;
+  let headerComponent = title ? title(open, restProps) : null;
+  let contentComponent = body ? (
+    <AccordionContent open={open}>{body(open, restProps)}</AccordionContent>
+  ) : null;
+  if (children) {
+    headerComponent = React.cloneElement(children[0]);
+    contentComponent = React.cloneElement(children[1], { open });
+  }
   return (
-    <div style={style}>
+    <div {...restProps}>
       {/* Animated Title */}
-      {title(open, restProps)}
+      {headerComponent}
       {/* Animated Separator */}
       <AnimatedSeparator visible={open} />
       {/* Animated Body  */}
-      <Spring from={{ height: 0 }} to={{ height: open ? "auto" : 0 }}>
-        {props => (
-          <AccordionItemBody style={props}>
-            {body(open, restProps)}
-          </AccordionItemBody>
-        )}
-      </Spring>
+      {contentComponent}
     </div>
   );
 };

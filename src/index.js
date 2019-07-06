@@ -7,11 +7,22 @@ import "./styles.css";
 
 import Accordion from "./Accordion";
 
-const AccordionItemHeader = styled.div`
+const StyledAccordionWrapper = styled(Accordion.AccordionItem)`
+  background-color: white;
+  border-radius: 4;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.16);
+`;
+
+const StyledAccordionHeader = styled(Accordion.AccordionHeader)`
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const StyledAccordionContent = styled(Accordion.AccordionContent)`
+  display: flex;
+  justifycontent: center;
 `;
 
 const StyledIcon = ({ open, iconName }) => (
@@ -29,80 +40,86 @@ const StyledIcon = ({ open, iconName }) => (
   </Spring>
 );
 
-const CustomAccordion = props => {
-  const { open, style, ...restProps } = props;
-  return (
-    <Accordion.AccordionItem
-      open={open}
-      style={{
-        boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.16)",
-        borderRadius: 4,
-        backgroundColor: "#fff",
-        ...style
-      }}
-      title={(
-        isAccordionOpen,
-        { id: accordionIdentifier, onAccordionItemClick }
-      ) => (
-        <AccordionItemHeader
-          onClick={event => onAccordionItemClick(event, accordionIdentifier)}
-        >
-          <StyledIcon open={isAccordionOpen} iconName="arrow_drop_down" />
-          <span>Some random text</span>
-          <h3 style={{ margin: 16 }}>Accordion </h3>
-        </AccordionItemHeader>
-      )}
-      body={() => (
-        <p style={{ padding: 16 }}>
-          This accordion is not a part of the accordion group above.
-        </p>
-      )}
-      {...restProps}
-    />
-  );
-};
+// const CustomAccordion = props => {
+//   const { open, style, ...restProps } = props;
+//   return (
+//     <Accordion.AccordionItem
+//       open={open}
+//       style={{
+//         boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.16)",
+//         borderRadius: 4,
+//         backgroundColor: "#fff",
+//         ...style
+//       }}
+//       title={(
+//         isAccordionOpen,
+//         { id: accordionIdentifier, onAccordionItemClick }
+//       ) => (
+//         <AccordionItemHeader
+//           onClick={event => onAccordionItemClick(event, accordionIdentifier)}
+//         >
+//           <StyledIcon open={isAccordionOpen} iconName="arrow_drop_down" />
+//           <span>Some random text</span>
+//           <h3 style={{ margin: 16 }}>Accordion </h3>
+//         </AccordionItemHeader>
+//       )}
+//       body={() => (
+//         <p style={{ padding: 16 }}>
+//           This accordion is not a part of the accordion group above.
+//         </p>
+//       )}
+//       {...restProps}
+//     />
+//   );
+// };
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: new Array(4).fill({}).map((item, index) => ({
-        id: index
-      })),
-      currentOpenIndexList: []
-    };
-    this.onAccordionItemClick = this.onAccordionItemClick.bind(this);
-  }
-  onAccordionItemClick(event, accordionIdentifier) {
-    const { currentOpenIndexList } = this.state;
-    const { allowMultipleOpen } = this.props;
-    let nextState = [...currentOpenIndexList];
-    if (allowMultipleOpen) {
-      const alreadyOpenIndex = nextState.indexOf(accordionIdentifier);
-      if (alreadyOpenIndex !== -1) {
-        nextState.splice(alreadyOpenIndex, 1);
-      } else {
-        nextState.push(accordionIdentifier);
+      currentOpenIndexList: ["1"],
+      customAccordion: {
+        open: true
       }
-    } else {
-      const alreadyOpenIndex = nextState.indexOf(accordionIdentifier);
-      nextState = alreadyOpenIndex === -1 ? [accordionIdentifier] : [];
-    }
-    this.setState({ currentOpenIndexList: nextState });
+    };
   }
+  customAccordionClick = () =>
+    this.setState(prevState => ({
+      ...prevState,
+      customAccordion: {
+        open: !prevState.customAccordion.open
+      }
+    }));
+
   render() {
-    const { customAccordion, currentOpenIndexList } = this.state;
+    const { customAccordion } = this.state;
     return (
       <div className="App">
-        <Accordion.AccordionGroup
+        {/* <Accordion.AccordionGroup
+          allowMultipleOpen
           currentOpenIndexList={currentOpenIndexList}
-          onAccordionItemClick={this.onAccordionItemClick}
         >
           <CustomAccordion id="1" />
           <CustomAccordion id="2" />
           <CustomAccordion id="3" />
-        </Accordion.AccordionGroup>
+        </Accordion.AccordionGroup> */}
         <hr />
+        <StyledAccordionWrapper open={customAccordion.open}>
+          <StyledAccordionHeader
+            onAccordionItemClick={this.customAccordionClick}
+          >
+            <h3 style={{ margin: 16 }}>Accordion </h3>
+            <StyledIcon
+              iconName="arrow_drop_down"
+              open={customAccordion.open}
+            />
+          </StyledAccordionHeader>
+          <StyledAccordionContent>
+            <p style={{ padding: 16 }}>
+              This accordion is not a part of the accordion group above.
+            </p>
+          </StyledAccordionContent>
+        </StyledAccordionWrapper>
       </div>
     );
   }

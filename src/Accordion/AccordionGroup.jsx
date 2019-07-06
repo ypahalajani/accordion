@@ -2,8 +2,36 @@ import React from "react";
 import { Spring } from "react-spring/renderprops";
 
 class AccordionGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentOpenIndexList: props.currentOpenIndexList
+    };
+    this.onAccordionItemClick = this.onAccordionItemClick.bind(this);
+  }
+  onAccordionItemClick(event, accordionIdentifier) {
+    const { currentOpenIndexList } = this.state;
+    const { allowMultipleOpen } = this.props;
+    let nextState = [...currentOpenIndexList];
+    if (allowMultipleOpen) {
+      const alreadyOpenIndex = nextState.indexOf(accordionIdentifier);
+      if (alreadyOpenIndex !== -1) {
+        nextState.splice(alreadyOpenIndex, 1);
+      } else {
+        nextState.push(accordionIdentifier);
+      }
+    } else {
+      const alreadyOpenIndex = nextState.indexOf(accordionIdentifier);
+      nextState = alreadyOpenIndex === -1 ? [accordionIdentifier] : [];
+    }
+    this.setState({ currentOpenIndexList: nextState });
+  }
   render() {
-    const { onAccordionItemClick, children, currentOpenIndexList } = this.props;
+    // TODO: throw a warning when user is passing an allowMultipleOpen
+    // prop along with their custom onAccordionClick callback for handling
+    // custom  accordion toggling logic.
+    const { currentOpenIndexList } = this.state;
+    const { children, onAccordionItemClick } = this.props;
     return React.Children.map(children, (child, index) => {
       const isFirst = index === 0;
       const isLast = index + 1 === children.length;
@@ -19,7 +47,8 @@ class AccordionGroup extends React.Component {
         >
           {props => {
             return React.cloneElement(child, {
-              onAccordionItemClick: onAccordionItemClick,
+              onAccordionItemClick:
+                onAccordionItemClick || this.onAccordionItemClick,
               open: isAccordionOpen,
               style: props
             });
