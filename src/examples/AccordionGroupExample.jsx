@@ -19,7 +19,6 @@ const StyledAccordionHeader = styled(Accordion.AccordionHeader)`
 
 const StyledAccordionContent = styled(Accordion.AccordionContent)`
   display: flex;
-  justify-content: center;
 `;
 
 class AccordionGroupExample extends React.Component {
@@ -39,12 +38,19 @@ class AccordionGroupExample extends React.Component {
           {list.map(item => (
             <StyledAccordionWrapper key={item.id} id={item.id}>
               <StyledAccordionHeader>
-                <h3 style={{ margin: 16 }}>Accordion {item.id + 1}</h3>
-                <StyledIcon iconName="arrow_drop_down" />
+                {accordionOpen => (
+                  <React.Fragment>
+                    <h3 style={{ margin: 16 }}>Accordion {item.id + 1}</h3>
+                    <StyledIcon
+                      iconName="arrow_drop_down"
+                      open={accordionOpen}
+                    />
+                  </React.Fragment>
+                )}
               </StyledAccordionHeader>
               <StyledAccordionContent>
                 <p style={{ padding: 16 }}>
-                  This accordion is not a part of the accordion group above.
+                  This acoordion panel is a part of the accordion group.
                 </p>
               </StyledAccordionContent>
             </StyledAccordionWrapper>
@@ -61,12 +67,19 @@ class AccordionGroupExample extends React.Component {
           {list.map(item => (
             <StyledAccordionWrapper key={item.id} id={item.id}>
               <StyledAccordionHeader>
-                <h3 style={{ margin: 16 }}>Accordion {item.id + 1}</h3>
-                <StyledIcon iconName="arrow_drop_down" />
+                {accordionOpen => (
+                  <React.Fragment>
+                    <h3 style={{ margin: 16 }}>Accordion {item.id + 1}</h3>
+                    <StyledIcon
+                      iconName="arrow_drop_down"
+                      open={accordionOpen}
+                    />
+                  </React.Fragment>
+                )}
               </StyledAccordionHeader>
               <StyledAccordionContent>
                 <p style={{ padding: 16 }}>
-                  This accordion is not a part of the accordion group above.
+                  This acoordion panel is a part of the accordion group.
                 </p>
               </StyledAccordionContent>
             </StyledAccordionWrapper>

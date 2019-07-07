@@ -48,11 +48,12 @@ class AccordionItemExample extends React.Component {
           onAccordionHeaderClick={this.customAccordionClick}
         >
           <StyledAccordionHeader>
-            <h3 style={{ margin: 16 }}>Accordion </h3>
-            <StyledIcon
-              iconName="arrow_drop_down"
-              open={customAccordion.open}
-            />
+            {accordionOpen => (
+              <React.Fragment>
+                <h3 style={{ margin: 16 }}>Accordion </h3>
+                <StyledIcon iconName="arrow_drop_down" open={accordionOpen} />
+              </React.Fragment>
+            )}
           </StyledAccordionHeader>
           <StyledAccordionContent>
             <p style={{ padding: 16 }}>
